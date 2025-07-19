@@ -8,7 +8,7 @@ class makePlots:
         self.timeline2 = timeline2
 
         if job == 'Scholar':
-            self.spell_plot_style = 'ro' 
+            self.spell_plot_style = 'ro' #red circles on the plot will prepresent Ruin II casts
 
     def timeToFloat(self, time_string_list):
         time_min = np.array([float(time_string_list[i][:2]) for i in range(len(time_string_list))])
@@ -19,8 +19,13 @@ class makePlots:
 
         return converted_time
 
-    def movementSpellPlots(self, own_timeline, target_timeline):
-        vertical_offset = 1
+    def movementSpellPlots(self):
+
+        print('Creating plot...')
+
+        own_timeline = self.timeToFloat(self.timeline1)
+        target_timeline = self.timeToFloat(self.timeline2)
+
         x_upper_bound = max(own_timeline[-1], target_timeline[-1])
 
         # create lists for the horizontal tick marks and labels (spaced by 1 minute)
@@ -36,6 +41,7 @@ class makePlots:
             x_tick_labels.append(str(t)+':00')
             t += 1
 
+        vertical_offset = 1
         y_ticks = [-vertical_offset,vertical_offset]
         y_tick_labels = ['Target','Self']
 
@@ -53,3 +59,5 @@ class makePlots:
         plt.axvline(0, color='black', linewidth=.5)
         plt.grid(visible=True, which='major')
         plt.savefig('result.png')
+
+        print('Plot saved as result.png')
